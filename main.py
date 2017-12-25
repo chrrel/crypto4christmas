@@ -126,8 +126,35 @@ class Crypto4Christmas():
 		print("c' bitstring = {}".format(c_dash_bin_string))
 		print("c' = {}".format(c_dash))
 
+	def task6(self):
+		q_dash_bitstring = '110' +  self.bin_pos(6,3) + self.bin_pos(6,2) + self.bin_pos(6,1) + self.bin_pos(6,0)  + '1010' +  self.bin_pos(5,3) + self.bin_pos(5,2) + self.bin_pos(5,1) + self.bin_pos(5,0) + '0101'
+		q_dash = int(q_dash_bitstring, 2)
+		
+		a_bitstring = '1001' + self.bin_pos(4,3) + self.bin_pos(4,2) + self.bin_pos(4,1) + self.bin_pos(4,0)
+		a = int(a_bitstring, 2)
+		
+		B_bitstring = '10' + self.bin_pos(3,3) + self.bin_pos(3,2) + self.bin_pos(3,1) + self.bin_pos(3,0)
+		B = int(B_bitstring, 2)
+		
+		c_bitstring = ""
+		i = 2
+		while (i >= 0):
+			c_bitstring += self.bin_pos(i,3) + self.bin_pos(i,2) + self.bin_pos(i,1) + self.bin_pos(i,0)
+			i = i - 1
+		c = int(c_bitstring, 2)
+		
+		print("\n### Task 6 ###")		
+		print("q' bitstring = {}".format(q_dash_bitstring))		
+		print("q' = {}".format(q_dash))
+		print("a bitstring = {}".format(a_bitstring))		
+		print("a = {}".format(a))
+		print("B bitstring = {}".format(B_bitstring))		
+		print("B = {}".format(B))		
+		print("c bitstring = {}".format(c_bitstring))		
+		print("c = {}".format(c))		
 
-matrikel_number = "1231023" # Todo: Correct number
+############################
+matrikel_number = "1231023"
 c = Crypto4Christmas(matrikel_number)
 
 c.at_position(1)
@@ -137,3 +164,4 @@ c.task2()
 c.task3()
 c.task4()
 c.task5()
+c.task6()
