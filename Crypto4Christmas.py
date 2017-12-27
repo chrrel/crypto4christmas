@@ -4,7 +4,7 @@ import numpy as np
 class Crypto4Christmas():
 	def __init__(self, matrikel_number):
 		self.matrikel_number = matrikel_number
-		self.matrikel_hash_hex = hashlib.sha1(matrikel_number.encode()).hexdigest()
+		self.matrikel_hash = hashlib.sha1(matrikel_number.encode()).hexdigest()
 		self.k = self.__create_hex_list() # hex representation, strings
 		self.x = self.__create_dec_list() # decimal representation, integers
 
@@ -15,12 +15,12 @@ class Crypto4Christmas():
 		return "{:d}".format(int(hex_string,16))
 
 	def __create_hex_list(self):
-		k = [x for x in self.matrikel_hash_hex]
+		k = [x for x in self.matrikel_hash]
 		k.reverse() # reverse the list so that k[0] is the last element of the hash
 		return k
 
 	def __create_dec_list(self):
-		max = len(self.matrikel_hash_hex)
+		max = len(self.matrikel_hash)
 		x = []
 		i = 0
 		for i in range (0, max):
@@ -37,7 +37,7 @@ class Crypto4Christmas():
 		formatstring = '# {:30s} {}'
 		print("##########################################################################")
 		print(formatstring.format("Matrikel", self.matrikel_number))
-		print(formatstring.format("SHA-1", self.matrikel_hash_hex))
+		print(formatstring.format("SHA-1", self.matrikel_hash))
 		print(formatstring.format("Position", position))
 		print(formatstring.format("At this position the char is", self.k[position]))
 		print(formatstring.format("Binary value for this char is", char_at_position_bin))
@@ -56,10 +56,9 @@ class Crypto4Christmas():
 
 	def task1(self):
 		bitstring = ""
-		i = 39
-		while (i >= 35):
+		
+		for i in range(39, 34, -1): # 39, 38, 37, 36, 35
 			bitstring += self.bin_pos(i,3) + self.bin_pos(i,2) + self.bin_pos(i,1) + self.bin_pos(i,0)
-			i = i - 1
 
 		a = np.array(
 			[[int(self.bin_pos(34,3)), 0, 0, 0, 1],
@@ -70,7 +69,8 @@ class Crypto4Christmas():
 		])
 
 		b = np.array([int(self.bin_pos(33,3)), int(self.bin_pos(33,2)), 1, int(self.bin_pos(33,1)), int(self.bin_pos(33,0))])
-
+		b.shape = (5,1)
+		
 		print("\n### Task 1 ###")
 		print("Input: " + bitstring)
 		print("A = ")
@@ -79,8 +79,9 @@ class Crypto4Christmas():
 		print(b)
 
 	def task2(self):
-		vector_k = "( 1 {} {} {} {} {} {} {} )	(mod 11)".format(self.x[32], self.x[31], self.x[30], self.x[29], self.x[28], self.x[27], self.x[26])
-		k = "1x⁷ + {}x⁶ + {}x⁵ + {}x⁵ + {}x³ + {}x² + {}x¹ + {}	(mod 11)".format(self.x[32], self.x[31], self.x[30], self.x[29], self.x[28], self.x[27], self.x[26])
+		values = [self.x[32]%11, self.x[31]%11, self.x[30]%11, self.x[29]%11, self.x[28]%11, self.x[27]%11, self.x[26]%11]
+		vector_k = "( 1 {} {} {} {} {} {} {} )	(mod 11)".format(*values)
+		k = "1x⁷ + {}x⁶ + {}x⁵ + {}x⁵ + {}x³ + {}x² + {}x¹ + {}	(mod 11)".format(*values)
 
 		print("\n### Task 2 ###")
 		print(vector_k)
@@ -99,7 +100,7 @@ class Crypto4Christmas():
 
 	def task4(self):
 		M = np.array([
-			[2396, self.x[17], 6767, self.x[16]],
+			[23926, self.x[17], 6767, self.x[16]],
 			[0, 945, 0, 17981],
 			[6413, self.x[15], 19746, self.x[14]],
 			[0, 377, 0, 31031]
@@ -113,10 +114,10 @@ class Crypto4Christmas():
 		m = 999 - self.x[10]
 
 		c_dash_bin_string = ""
-		i = 9
-		while (i >= 7):
+		
+		for i in range(9, 6, -1): # 9, 8, 7
 			c_dash_bin_string += self.bin_pos(i,3) + self.bin_pos(i,2) + self.bin_pos(i,1) + self.bin_pos(i,0)
-			i = i - 1
+
 		c_dash = int(c_dash_bin_string, 2)
 
 		print("\n### Task 5 ###")
@@ -130,17 +131,16 @@ class Crypto4Christmas():
 		q_dash_bitstring = '110' +  self.bin_pos(6,3) + self.bin_pos(6,2) + self.bin_pos(6,1) + self.bin_pos(6,0)  + '1010' +  self.bin_pos(5,3) + self.bin_pos(5,2) + self.bin_pos(5,1) + self.bin_pos(5,0) + '0101'
 		q_dash = int(q_dash_bitstring, 2)
 		
-		a_bitstring = '1001' + self.bin_pos(4,3) + self.bin_pos(4,2) + self.bin_pos(4,1) + self.bin_pos(4,0)
+		a_bitstring = '1001' + self.bin_pos(4,3) + self.bin_pos(4,2) + self.bin_pos(4,1) + self.bin_pos(4,0) + '11'
 		a = int(a_bitstring, 2)
 		
 		B_bitstring = '10' + self.bin_pos(3,3) + self.bin_pos(3,2) + self.bin_pos(3,1) + self.bin_pos(3,0)
 		B = int(B_bitstring, 2)
 		
 		c_bitstring = ""
-		i = 2
-		while (i >= 0):
+		for i in range(2, -1, -1): # 2, 1, 0
 			c_bitstring += self.bin_pos(i,3) + self.bin_pos(i,2) + self.bin_pos(i,1) + self.bin_pos(i,0)
-			i = i - 1
+
 		c = int(c_bitstring, 2)
 		
 		print("\n### Task 6 ###")		
