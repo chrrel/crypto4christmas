@@ -81,7 +81,7 @@ class Crypto4Christmas():
 	def task2(self):
 		values = [self.x[32]%11, self.x[31]%11, self.x[30]%11, self.x[29]%11, self.x[28]%11, self.x[27]%11, self.x[26]%11]
 		vector_k = "( 1 {} {} {} {} {} {} {} )	(mod 11)".format(*values)
-		k = "1x⁷ + {}x⁶ + {}x⁵ + {}x⁵ + {}x³ + {}x² + {}x¹ + {}	(mod 11)".format(*values)
+		k = "1x⁷ + {}x⁶ + {}x⁵ + {}x⁴ + {}x³ + {}x² + {}x¹ + {}	(mod 11)".format(*values)
 
 		print("\n### Task 2 ###")
 		print(vector_k)
